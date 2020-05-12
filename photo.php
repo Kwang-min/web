@@ -36,20 +36,21 @@ if (isset($_GET['no'])) {
       <hr>
       <?php
       $conn = mysqli_connect('localhost', 'root', '111111', 'web');
-      $sql = "SELECT * FROM forum WHERE no={$_GET['no']}";
+      $sql = "SELECT * FROM photo WHERE no={$_GET['no']}";
       $result = mysqli_query($conn, $sql);
       $row = mysqli_fetch_array($result);
       echo '<p>'.$row['title'].'</p>';
       echo '<p>'.$row['author_id'].'</p>';
       echo '<p>'.$row['description'].'</p>';
+      echo '<p><img src="'.$row['imgurl'].'" width=200></p>';
       echo '<p>'.$row['created'].'</p>';
       if(isset($_SESSION['id'])) {
           if($_SESSION['id'] === $row['author_id']) {
-            echo '<form action="forum_update.php" method="post">
+            echo '<form action="photo_update.php" method="post">
                     <input type="hidden" name="no" value="'.$_GET['no'].'">
                     <input type="submit" value="글 수정">
                   </form>';
-            echo '<form action="forum_delete_process.php" method="post">
+            echo '<form action="photo_delete_process.php" method="post">
                     <input type="hidden" name="no" value="'.$_GET['no'].'">
                     <input type="submit" value="글 삭제">
                   </form>';
@@ -57,7 +58,7 @@ if (isset($_GET['no'])) {
       }
       ?>
       <p>댓글작성</p>
-      <form action="forum_comments_create.php" method="post">
+      <form action="photo_comments_create.php" method="post">
         <input type="hidden" name="article_no" value="<?=$_GET['no']?>">
         <input type="hidden" name="author_id" value="<?=$_SESSION['id']?>">
         <input type="text" name="comment" size="50" required>
@@ -67,7 +68,7 @@ if (isset($_GET['no'])) {
       <table border="0">
         <?php
           $conn = mysqli_connect('localhost', 'root', '111111', 'web');
-          $sql = "SELECT * FROM forum_comments
+          $sql = "SELECT * FROM photo_comments
                   WHERE article_no={$_GET['no']} ORDER BY no DESC";
           $result = mysqli_query($conn, $sql);
           while($row = mysqli_fetch_array($result)) {
@@ -79,7 +80,7 @@ if (isset($_GET['no'])) {
             <?php
             if($_SESSION['id']===$row['author_id']) {
             ?>
-            <td><form action="forum_comments_delete.php" method="post">
+            <td><form action="photo_comments_delete.php" method="post">
               <input type="hidden" name="no" value="<?=$row['no']?>">
               <input type="hidden" name="article_no" value="<?=$row['article_no']?>">
               <input type="submit" value="삭제">
@@ -125,26 +126,27 @@ if (isset($_GET['no'])) {
         <?php
 
           $conn = mysqli_connect('localhost', 'root', '111111', 'web');
-          $sql = "SELECT * FROM forum ORDER BY no DESC LIMIT ".(($page-1)*10).",10";
+          $sql = "SELECT * FROM photo ORDER BY no DESC LIMIT ".(($page-1)*10).",10";
           $result = mysqli_query($conn, $sql);
           while($row = mysqli_fetch_array($result)) {
             echo "<tr>
-            <td>{$row['no']}</td><td><a href=\"forum.php?no={$row['no']}\">{$row['title']}</a></td>
+            <td>{$row['no']}</td><td><a href=\"photo.php?no={$row['no']}\">{$row['title']}</a></td>
             <td>{$row['author_id']}</td><td>{$row['created']}</td></tr>";
           }
         ?>
       </table>
       <?php
-      $sql = "SELECT COUNT(*) FROM forum";
+      $sql = "SELECT COUNT(*) FROM photo";
       $result = mysqli_query($conn, $sql);
       $row = mysqli_fetch_array($result);
 
       if ($page>=2) {
-        echo '<a href="forum.php?page=<?=($page-1)?>">이전</a>';
+        echo '<a href="photo.php?page=<?=($page-1)?>">이전</a>';
       }
 
+
       if($page>=4) {
-        echo '<a href="forum.php?page=1">1</a>....';
+        echo '<a href="photo.php?page=1">1</a>....';
       }
       $last_page=0;
       for($i=-2;$i<3;$i++){
@@ -154,7 +156,7 @@ if (isset($_GET['no'])) {
 
             if ($page+$i<=ceil($row['COUNT(*)']/10)) {
 
-              echo '<a href="forum.php?page='.($page+$i).'">'.($page+$i).'</a>';
+              echo '<a href="photo.php?page='.($page+$i).'">'.($page+$i).'</a>';
               if(($page+$i)==ceil($row['COUNT(*)']/10)){
                 $last_page=1;
               } else{
@@ -173,15 +175,15 @@ if (isset($_GET['no'])) {
 
         } else{
           echo '....';
-          echo '<a href="forum.php?page='.ceil($row['COUNT(*)']/10).'">'.ceil($row['COUNT(*)']/10).'</a>';
-          echo '<a href="forum.php?page='.($page+1).'">다음</a>';
+          echo '<a href="photo.php?page='.ceil($row['COUNT(*)']/10).'">'.ceil($row['COUNT(*)']/10).'</a>';
+          echo '<a href="photo.php?page='.($page+1).'">다음</a>';
         }
 
       }
 
-      ?>
 
-      <br><a class="btn btn-link" href="forum_create.php">글쓰기</a>
+      ?>
+      <br><a class="btn btn-link" href="photo_create.php">글쓰기</a>
     </div>
     </body>
   </html>

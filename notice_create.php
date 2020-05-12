@@ -22,7 +22,7 @@ $anchor_logout='<a href="logout.php" style="margin-left:980px;">로그아웃</a>
     <a href="notice.php" style="margin-left: 15px;">공지사항</a>
     <hr>
     <h3>글쓰기</h3>
-    <form action="forum_create_process.php" method="POST">
+    <form action="notice_create_process.php" method="POST">
     <p><input type="hidden" name="author_id"
         value="<?=$_SESSION['id']?>" ></p>
     <p>작성자 : <?=$_SESSION['id']?></p>

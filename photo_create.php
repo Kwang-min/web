@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 $anchor_logout = '';
 
 if (isset($_SESSION['id'])) {
@@ -22,12 +23,13 @@ $anchor_logout='<a href="logout.php" style="margin-left:980px;">로그아웃</a>
     <a href="notice.php" style="margin-left: 15px;">공지사항</a>
     <hr>
     <h3>글쓰기</h3>
-    <form action="forum_create_process.php" method="POST">
+    <form action="photo_create_process.php" method="POST" enctype="multipart/form-data" >
     <p><input type="hidden" name="author_id"
         value="<?=$_SESSION['id']?>" ></p>
     <p>작성자 : <?=$_SESSION['id']?></p>
     <p><input type="text" name="title" maxlength="49" placeholder="글 제목" required></p>
     <p><textarea name="description" rows="10" placeholder="글 내용" required></textarea></p>
+    <p><input type="file" name="image" required></p>
     <input type="submit" value="글쓰기">
     </form>
   </body>

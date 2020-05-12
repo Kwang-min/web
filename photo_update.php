@@ -34,10 +34,10 @@ if(isset($_SESSION["id"])){
     <?php
       if(isset($_POST['no'])) {
         $conn = mysqli_connect('localhost', 'root', '111111', 'web');
-        $sql = "SELECT * FROM forum WHERE no={$_POST['no']}";
+        $sql = "SELECT * FROM photo WHERE no={$_POST['no']}";
         $result = mysqli_query($conn, $sql);
         $row = mysqli_fetch_array($result);
-        echo '<form action="forum_update_process.php" method="post">
+        echo '<form action="photo_update_process.php" method="post">
                 <input type="hidden" name="no" value="'.$row['no'].'">
                 <input type="text" name="title" value="'.$row['title'].'"><br>
                 '.$row['author_id'].'<br>
