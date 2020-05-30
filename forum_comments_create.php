@@ -13,4 +13,5 @@ if($result === false) {
   header('Location: forum.php?no='.$_POST['article_no']);
 }
 
+
 ?>
